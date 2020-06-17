@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div id="big_box">
+<div id="display"></div>
+
+<div class="btn">
+<button id="zero" class="btns">0</button>  
+<button id="one" class="btns">1</button>
+<button id="two" class="btns">2</button>
+<button id="three" class="btns">3</button>
+<button id="four" class="btns">4</button>
+<button id="five" class="btns">5</button>
+<button id="six" class="btns">6</button>
+<button id="seven" class="btns">7</button>
+<button id="eight" class="btns">8</button>
+<button id="nine" class="btns">9</button>
+<button id="sub" class="btns">-</button>
+<button id="div" class="btns">/</button>
+<button id="mult" class="btns">x</button>
+<button id="addition" class="btns">+</button>
+<button id="backspace" class="btns">Backspace</button>
+<button id="clear" class="btns">Clear</button>
+<button id="decimal" class="btns">.</button>
+<button id="equals" class="btns">=</button>
+</div>
+</div>
+
+
+<script>
+const display = document.getElementById("display");
+const zero = document.getElementById("zero");
+const one = document.getElementById("one");
+const two = document.getElementById("two");
+const three = document.getElementById("three");
+const four = document.getElementById("four");
+const five = document.getElementById("five");
+const six = document.getElementById("six");
+const seven = document.getElementById("seven");
+const eight = document.getElementById("eight");
+const nine = document.getElementById("nine");
+const subtractBtn = document.getElementById("sub");
+const divideBtn = document.getElementById("div");
+const multiplyBtn = document.getElementById("mult");
+const additionBtn = document.getElementById("addition");
+const clearBtn = document.getElementById("clear");
+const backspaceBtn = document.getElementById("backspace");
+const equalsBtn = document.getElementById("equals");
+const decimalBtn = document.getElementById("decimal");
+
+zero.addEventListener('click', numZero);
+one.addEventListener('click', numOne);
+two.addEventListener('click', numTwo);
+three.addEventListener('click', numThree);
+four.addEventListener('click', numFour);
+five.addEventListener('click', numFive);
+six.addEventListener('click',numSix);
+seven.addEventListener('click', numSeven);-
+eight.addEventListener('click', numEight);
+nine.addEventListener('click', numNine);
+subtractBtn.addEventListener('click', subtract);
+divideBtn.addEventListener('click', divide);
+multiplyBtn.addEventListener('click', multiply);
+additionBtn.addEventListener('click', add);
+clearBtn.addEventListener('click', clear);
+backspaceBtn.addEventListener('click', backspace);
+equalsBtn.addEventListener('click', function(event) {
+    event.preventDefault();
+    let text = display.textContent;
+    let lastIndex = text.length - 2;
+    if (text[lastIndex] == "x" || text[lastIndex] == "/" || text[lastIndex] == "+" || text[lastIndex] == "-" || text[lastIndex + 1] == ".")
+    {
+        equalsBtn.disabled = true;
+        equalsBtn.disabled = false;  
+    }
+    else {
+    evalExpression();
+    }
+});
+decimalBtn.addEventListener('click', decimal);
+
+display.textContent = "";
+let operator = [];
+
+function plus(a, b) {
+display.textContent = (parseFloat(a) + parseFloat(b));
+if (display.textContent.length > 10)
+{
+    display.textContent = (parseFloat(a) / parseFloat(b)).toFixed(5)
+}
+return parseFloat(a) + parseFloat(b);
+}
+
+function minus(a, b) {
+display.textContent = (parseFloat(a) - parseFloat(b));
+if (display.textContent.length > 10)
+{
+    display.textContent = (parseFloat(a) / parseFloat(b)).toFixed(5)
+}
+return parseFloat(a) - parseFloat(b);
+}
+
+function fraction(a, b) {
+    if (b === "0")
+    {
+        display.textContent = "Stop it";
+    }
+    else {
+display.textContent = (parseFloat(a) / parseFloat(b));
+if (display.textContent.length > 10)
+{
+    display.textContent = (parseFloat(a) / parseFloat(b)).toFixed(5)
+}
+return parseFloat(a) / parseFloat(b);
+    }
+}
+
+function times(a, b) {
+display.textContent = (parseFloat(a) * parseFloat(b));
+if (display.textContent.length  > 10)
+{
+    display.textContent = (parseFloat(a) / parseFloat(b)).toFixed(5)
+}
+return parseFloat(a) * parseFloat(b);
+}
+
+function operate(a, sign, b) {
+    if (sign == "/")
+    { 
+        return fraction(a, b);
+    }
+    if (sign == "*" || sign =="x")
+    {
+        return times(a, b);
+    }
+    if (sign == "+")
+    {
+        return plus(a, b);
+    }
+    if (sign == "-");
+    {
+        return minus(a, b);
+    }
+}
+
+function evalExpression() {
+let length = operator.length;
+let splitText = display.textContent.split(" ");
+return operate(splitText[0], splitText[1], splitText[2]);
+}
+
+function disable() {
+    subtractBtn.disabled = true;
+    multiplyBtn.disabled = true;
+    additionBtn.disabled = true;
+    divideBtn.disabled = true;
+    decimalBtn.disabled = false;
+}
+
+function enable() {
+    subtractBtn.disabled = false;
+    multiplyBtn.disabled = false;
+    additionBtn.disabled = false;
+    divideBtn.disabled = false;
+}
+
+function add() {
+    operational();
+    display.textContent += " + ";
+    operator.push("+");
+}
+
+function subtract() {
+    operational();
+    display.textContent += " - ";
+    operator.push("-");
+}
+
+function multiply() {
+    operational();
+    display.textContent += " x ";
+    operator.push("x");
+}
+
+function divide() {
+    operational();
+    display.textContent += " / ";
+    operator.push("/");
+}
+
+function operational(){
+    // let text = display.textContent;
+    // let lastIndex = text.length - 2;
+    // if (text[lastIndex].isInteger && operator.length == 0)
+    // {
+    //     console.log("fish");
+    // }
+    let splitText = display.textContent.split(" ");
+    console.log(operator[0]);
+    console.log(splitText[1]);
+    if (operator.length == 1)
+{
+    operator.pop();
+    evalExpression();
+}
+console.log(splitText.length);
+console.log(splitText[0]);
+if (splitText.length = 1)
+{
+    display.textContent = splitText[0];
+}
+disable();
+if (display.textContent.includes("."))
+{
+    decimalBtn.disabled = true;
+}
+}
+
+function numZero() {
+display.textContent += "0";
+enable();
+}
+function numOne() {
+display.textContent += "1";
+enable();
+}
+
+function numTwo() {
+display.textContent += "2";
+enable();
+}
+
+function numThree() {
+display.textContent += "3";
+enable();
+}
+
+function numFour() {
+display.textContent += "4";
+enable();
+}
+
+function numFive() {
+display.textContent += "5";
+enable();
+}
+
+function numSix() {
+display.textContent += "6";
+enable();
+}
+
+function numSeven() {
+display.textContent += "7";
+enable();
+}
+
+function numEight() {
+display.textContent += "8";
+enable();
+}
+
+function numNine() {
+ display.textContent += "9";
+ enable();
+}
+
+function decimal() {
+display.textContent += ".";
+this.disabled = true;
+}
+
+function backspace() {
+    let text = display.textContent.split("");
+    let popped = text.pop();
+    if (popped == " ")
+    {
+        text.pop();
+        operator.pop();
+    }
+display.textContent = text.join("");
+}
+
+function clear() {
+display.textContent = "";
+operator = [];
+decimalBtn.disabled = false;
+enable();
+}
+
+window.addEventListener("keydown", function(event) {
+    event.preventDefault();
+    switch (event.key) {
+    case "0":
+    numZero();
+    break;
+    case "1":
+    numOne();
+    break;
+    case "2":
+    numTwo();
+    break;
+    case "3":
+    numThree();
+    break;
+    case "4":
+    numFour();
+    break;
+    case "5":
+    numFive();
+    break;
+    case "6":
+    numSix();
+    break;
+    case "7":
+    numSeven();
+    break;
+    case "8":
+    numEight();
+    break;
+    case "9":
+    numNine();
+    break;
+    case "Backspace":
+    backspace();
+    break;
+    case "-":
+    subtract();
+    break;
+    case "/":
+    divide();
+    break;
+    case "+":
+    add();
+    break;
+    case "x":
+    case "*":
+    multiply();
+    break;
+    case ".":
+    decimal();
+    break;
+    case "=":
+    case "Enter":
+    evalExpression();
+}
+});
+
+</script>
+    
+</body>
+</html>
